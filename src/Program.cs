@@ -16,7 +16,7 @@ class Program
 
         string[] categoryFolders = Directory.GetDirectories(config.BaseFolder);
         if (categoryFolders.Length == 0)
-            return ExitWithError("No category/topic subfolders inside the directory!");
+            return CliUtils.ExitWithError("No category/topic subfolders inside the directory!");
 
         string categoryFolder = FolderSelector.PromptForCategoryFolder(categoryFolders);
 
@@ -24,14 +24,14 @@ class Program
         string horizontalPath = Path.Combine(categoryFolder, "horizontal");
         string verticalPath = Path.Combine(categoryFolder, "vertical");
         if (!Directory.Exists(horizontalPath) || !Directory.Exists(verticalPath))
-            return ExitWithError(
+            return CliUtils.ExitWithError(
                  $"No 'horizontal' and/or 'vertical' subfolders in category '{Path.GetFileName(categoryFolder)}'.");
 
         // Fetch all category images
         List<string> horizontalImages = GetImages(horizontalPath);
         List<string> verticalImages = GetImages(verticalPath);
         if (horizontalImages.Count == 0 || verticalImages.Count == 0)
-            return ExitWithError("One or both layout folders are empty!");
+            return CliUtils.ExitWithError("One or both layout folders are empty!");
 
         // Select  3  random images (Horizontal, Horizontal, Vertical)
         string[] imagePaths = {
@@ -59,13 +59,5 @@ class Program
         string chosen = list[index];
         if (list.Count > 1) list.RemoveAt(index);
         return chosen;
-    }
-
-    private static int ExitWithError(string message)
-    {
-        CliUtils.ShowError(message);
-        Console.WriteLine("Press any key to exit...");
-        Console.ReadKey(intercept: true); // Wait for input without printing the key to the screen
-        return 1;
     }
 }

@@ -12,6 +12,14 @@ public static class CliUtils
         ShowMessage($"ERROR: {message}", ConsoleColor.Red);
     }
 
+    public static int ExitWithError(string message)
+    {
+        ShowError(message);
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey(intercept: true); // Wait for input without printing the key to the screen
+        return 1;
+    }
+
     private static void ShowMessage(string message, ConsoleColor color)
     {
         Console.ForegroundColor = color;
