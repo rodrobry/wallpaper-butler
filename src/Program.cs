@@ -20,18 +20,22 @@ class Program
 
         string categoryFolder = FolderSelector.PromptForCategoryFolder(categoryFolders);
 
-        // Define image orientation subpaths
-        string horizontalPath = Path.Combine(categoryFolder, "horizontal");
-        string verticalPath = Path.Combine(categoryFolder, "vertical");
-        if (!Directory.Exists(horizontalPath) || !Directory.Exists(verticalPath))
-            return CliUtils.ExitWithError(
-                 $"No 'horizontal' and/or 'vertical' subfolders in category '{Path.GetFileName(categoryFolder)}'.");
+        List<string> allImages = Directory.EnumerateFiles(categoryFolder, "*.*")
+                                       .Where(FileUtils.IsSupportedImageFormat)
+                                       .ToList();
+        if (allImages.Count == 0)
+            return CliUtils.ExitWithError("Category folder does not have valid images.");
 
-        // Fetch all category images
-        List<string> horizontalImages = GetImages(horizontalPath);
-        List<string> verticalImages = GetImages(verticalPath);
-        if (horizontalImages.Count == 0 || verticalImages.Count == 0)
-            return CliUtils.ExitWithError("One or both layout folders are empty!");
+        List<string> horizontalImages = [];
+        List<string> verticalImages = [];
+
+        foreach (var imagePath in allImages)
+        {
+            if (IsHorizontal(imagePath))
+                horizontalImages.Add(imagePath);
+            else
+                verticalImages.Add(imagePath);
+        }
 
         // Sort monitors left-to-right by physical X position
         var screens = Screen.AllScreens.OrderBy(s => s.Bounds.X).ToArray();
@@ -48,12 +52,6 @@ class Program
         return 0;
     }
 
-    // Helper to grab all images from a directory
-    private static List<string> GetImages(string path) =>
-        Directory.EnumerateFiles(path, "*.*")
-            .Where(FileUtils.IsSupportedImageFormat)
-            .ToList();
-
     // Helper to pick a random image and remove it from the pool to avoid duplicates
     private static string PickAndRemoveRandom(List<string> list)
     {
@@ -62,5 +60,18 @@ class Program
         string chosen = list[index];
         if (list.Count > 1) list.RemoveAt(index);
         return chosen;
+    }
+
+    private static bool IsHorizontal(string filePath)
+    {
+        try
+        {
+            using var img = Image.FromFile(filePath);
+            return img.Width >= img.Height;
+        }
+        catch
+        {
+            return true; // Default fallback if header read fails
+        }
     }
 }
