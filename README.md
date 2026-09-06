@@ -11,7 +11,7 @@ Unlike background swappers that constantly poll in the background, Wallpaper Ran
 - **Higher Visual Control:** Change wallpapers only when you want to, cycling until you hit a combination you like.
 
 ## Wallpaper Folder Structure
-- The app categorizes wallpapers by **topic** subfolders inside a 'BaseFolder'.
+- The app expects wallpapers in **category/topic** subfolders inside a 'BaseFolder'.
 - The 'BaseFolder' defaults to 'C:\Users\<Username>\Pictures\wallpapers', but can be customized through the **config.json** file.
 - Example:
 
