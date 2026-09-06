@@ -66,12 +66,13 @@ class Program
     {
         try
         {
-            using var img = Image.FromFile(filePath);
+            using var stream = File.OpenRead(filePath);
+            using var img = Image.FromStream(stream, useEmbeddedColorManagement: false, validateImageData: false);
             return img.Width >= img.Height;
         }
         catch
         {
-            return true; // Default fallback if header read fails
+            return true; // Default fallback on corrupt file
         }
     }
 }
