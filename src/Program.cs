@@ -33,14 +33,17 @@ class Program
         if (horizontalImages.Count == 0 || verticalImages.Count == 0)
             return CliUtils.ExitWithError("One or both layout folders are empty!");
 
-        // Select  3  random images (Horizontal, Horizontal, Vertical)
-        string[] imagePaths = {
-            PickAndRemoveRandom(horizontalImages),
-            PickAndRemoveRandom(horizontalImages),
-            PickAndRemoveRandom(verticalImages)
-        };
+        // Sort monitors left-to-right by physical X position
+        var screens = Screen.AllScreens.OrderBy(s => s.Bounds.X).ToArray();
 
-        string newWallpaperPath = WallpaperCreator.MergeImages(imagePaths);
+        // Dynamically pick horizontal or vertical images per screen orientation
+        var imagePaths = screens.Select(s =>
+            s.Bounds.Width >= s.Bounds.Height
+                ? PickAndRemoveRandom(horizontalImages)
+                : PickAndRemoveRandom(verticalImages)
+        ).ToArray();
+
+        string newWallpaperPath = WallpaperCreator.MergeImages(imagePaths, screens);
         WallpaperSwapper.ApplyNewWallpaper(newWallpaperPath);
         return 0;
     }

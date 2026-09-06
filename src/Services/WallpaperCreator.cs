@@ -6,7 +6,7 @@ namespace WallpaperManager.Services;
 
 public static class WallpaperCreator
 {
-    public static string MergeImages(string[] imagePaths)
+    public static string MergeImages(string[] imagePaths, Screen[] screens)
     {
         // Get exact total desktop bounds from Windows
         Rectangle virtualScreen = SystemInformation.VirtualScreen;
@@ -18,9 +18,6 @@ public static class WallpaperCreator
         canvasGraphics.SmoothingMode = SmoothingMode.HighQuality;
         canvasGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
         canvasGraphics.CompositingQuality = CompositingQuality.HighQuality;
-
-        // Sort monitors left-to-right by physical X position
-        var screens = Screen.AllScreens.OrderBy(s => s.Bounds.X).ToArray();
 
         // Draw each image at its exact OS-defined coordinates
         for (int i = 0; i < screens.Length && i < imagePaths.Length; i++)
