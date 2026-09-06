@@ -1,4 +1,4 @@
-namespace WallpaperManager.Utils;
+namespace WallpaperButler.Utils;
 
 public static class CliUtils
 {

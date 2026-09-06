@@ -1,7 +1,7 @@
-﻿using WallpaperManager.Services;
-using WallpaperManager.Utils;
+﻿using WallpaperButler.Services;
+using WallpaperButler.Utils;
 
-namespace WallpaperManager;
+namespace WallpaperButler;
 
 class Program
 {

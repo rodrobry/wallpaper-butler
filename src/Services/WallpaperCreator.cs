@@ -1,8 +1,8 @@
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-using WallpaperManager.Utils;
+using WallpaperButler.Utils;
 
-namespace WallpaperManager.Services;
+namespace WallpaperButler.Services;
 
 public static class WallpaperCreator
 {

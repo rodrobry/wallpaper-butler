@@ -1,6 +1,6 @@
-using WallpaperManager.Utils;
+using WallpaperButler.Utils;
 
-namespace WallpaperManager.Services;
+namespace WallpaperButler.Services;
 
 public static class FolderSelector
 {

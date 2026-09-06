@@ -1,14 +1,14 @@
 using System.Text.Json;
-using WallpaperManager.Utils;
+using WallpaperButler.Utils;
 
-namespace WallpaperManager.Services;
+namespace WallpaperButler.Services;
 
 public class AppConfig
 {
     // %APPDATA% -> C:/Users/<user>/AppData/Roaming/
     private static readonly string ConfigDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "WallpaperManager"
+            "WallpaperButler"
         );
     public static readonly string ConfigFilePath = Path.Combine(ConfigDir, "config.json");
     private static readonly JsonSerializerOptions SerializerOptions = new() { WriteIndented = true };
