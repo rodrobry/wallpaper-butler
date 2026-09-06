@@ -1,4 +1,8 @@
 # Wallpaper Randomizer
+
+![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-blue)
+![License](https://img.shields.io/github/license/rodrobry/wallpaper-manager)
+
 A lightweight C# utility to randomize wallpapers across multi-monitor setups on demand.
 
 ## Overview
