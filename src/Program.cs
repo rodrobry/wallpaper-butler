@@ -31,10 +31,19 @@ class Program
 
         foreach (var imagePath in allImages)
         {
-            if (IsHorizontal(imagePath))
-                horizontalImages.Add(imagePath);
-            else
-                verticalImages.Add(imagePath);
+            try
+            {
+                using var stream = File.OpenRead(imagePath);
+                using var img = Image.FromStream(stream, useEmbeddedColorManagement: false, validateImageData: false);
+                if (img.Width >= img.Height)
+                    horizontalImages.Add(imagePath);
+                else
+                    verticalImages.Add(imagePath);
+            }
+            catch
+            {
+                continue; // Skip unreadable/corrupt files
+            }
         }
 
         // Sort monitors left-to-right by physical X position
@@ -60,19 +69,5 @@ class Program
         string chosen = list[index];
         if (list.Count > 1) list.RemoveAt(index);
         return chosen;
-    }
-
-    private static bool IsHorizontal(string filePath)
-    {
-        try
-        {
-            using var stream = File.OpenRead(filePath);
-            using var img = Image.FromStream(stream, useEmbeddedColorManagement: false, validateImageData: false);
-            return img.Width >= img.Height;
-        }
-        catch
-        {
-            return true; // Default fallback on corrupt file
-        }
     }
 }
