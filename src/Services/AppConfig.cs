@@ -5,9 +5,13 @@ namespace WallpaperManager.Services;
 
 public class AppConfig
 {
-    private static string ConfigFilePath { get; } = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "config.json");
+    // %APPDATA% -> C:/Users/<user>/AppData/Roaming/
+    private static readonly string ConfigDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "WallpaperManager"
+        );
+    public static readonly string ConfigFilePath = Path.Combine(ConfigDir, "config.json");
+    private static readonly JsonSerializerOptions SerializerOptions = new() { WriteIndented = true };
 
     private string _baseFolder = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
@@ -30,9 +34,9 @@ public class AppConfig
                 if (loadedConfig != null)
                     return loadedConfig;
             }
-            catch (JsonException)
+            catch (Exception)
             {
-                CliUtils.ShowWarning("config.json was corrupted. Resetting to defaults.");
+                CliUtils.ShowWarning("config.json was missing or corrupted. Resetting to defaults.");
             }
         }
         AppConfig defaultConfig = new AppConfig();
@@ -42,8 +46,9 @@ public class AppConfig
 
     public void Save()
     {
-        var serializerOptions = new JsonSerializerOptions { WriteIndented = true };
-        string jsonString = JsonSerializer.Serialize(this, serializerOptions);
+        if (!Directory.Exists(ConfigDir))
+            Directory.CreateDirectory(ConfigDir);
+        string jsonString = JsonSerializer.Serialize(this, SerializerOptions);
         File.WriteAllText(ConfigFilePath, jsonString);
     }
 }
