@@ -13,7 +13,7 @@ Unlike most background swappers that constantly poll in the background, **Wallpa
 - **Higher Visual Control:** Change wallpapers only when you want to, cycling until you hit a combination you like.
 
 ## Wallpaper Folder Structure
-- The app expects wallpapers in **category/topic** subfolders inside a 'BaseFolder'.
+- The app expects wallpapers in **category/topic** subfolders inside a 'BaseFolder', but will default to looking for images in the 'BaseFolder if no subfolders exist.
 - The 'BaseFolder' defaults to 'C:\Users\<Username>\Pictures\wallpapers', but can be customized through the **config.json** file, or through the CLI.
 - Example:
 

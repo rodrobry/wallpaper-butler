@@ -15,16 +15,23 @@ class Program
         }
 
         string[] categoryFolders = Directory.GetDirectories(config.BaseFolder);
-        if (categoryFolders.Length == 0)
-            return CliUtils.ExitWithError("No category/topic subfolders inside the directory!");
+        string imagesFolder;
+        if (categoryFolders.Length > 0)
+        {
+            imagesFolder = FolderSelector.PromptForCategoryFolder(categoryFolders);
+        }
+        else
+        {
+            CliUtils.ShowWarning("No category/topic subfolders inside the base directory.");
+            CliUtils.ShowWarning("Defaulting to the root folder.");
+            imagesFolder = config.BaseFolder; // Default to base folder if no subfolders
+        }
 
-        string categoryFolder = FolderSelector.PromptForCategoryFolder(categoryFolders);
-
-        List<string> allImages = Directory.EnumerateFiles(categoryFolder, "*.*")
+        List<string> allImages = Directory.EnumerateFiles(imagesFolder, "*.*")
                                        .Where(FileUtils.IsSupportedImageFormat)
                                        .ToList();
         if (allImages.Count == 0)
-            return CliUtils.ExitWithError("Category folder does not have valid images.");
+            return CliUtils.ExitWithError("Selected folder does not have valid images.");
 
         List<string> horizontalImages = [];
         List<string> verticalImages = [];
