@@ -17,12 +17,12 @@ public static class FolderSelector
             }
             if (string.IsNullOrWhiteSpace(input))
             {
-                CliUtils.ShowWarning("Path cannot be empty.");
+                CliUtils.WriteWarning("Path cannot be empty.");
                 continue;
             }
             if (!Directory.Exists(input))
             {
-                CliUtils.ShowWarning($"Directory '{input}' does not exist.");
+                CliUtils.WriteWarning($"Directory '{input}' does not exist.");
                 continue;
             }
             config.BaseFolder = input;
@@ -79,7 +79,7 @@ public static class FolderSelector
             return matchedFolder;
         }
 
-        CliUtils.ShowWarning($"'{input}' is not a valid option.");
+        CliUtils.WriteWarning($"'{input}' is not a valid option.");
         return null;
     }
 }

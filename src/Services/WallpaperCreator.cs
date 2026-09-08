@@ -24,7 +24,7 @@ public static class WallpaperCreator
         {
             if (!File.Exists(imagePaths[i]))
             {
-                CliUtils.ShowWarning($"File not found -> {imagePaths[i]}");
+                CliUtils.WriteWarning($"File not found -> {imagePaths[i]}");
                 continue;
             }
 

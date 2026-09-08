@@ -10,7 +10,7 @@ class Program
         AppConfig config = AppConfig.LoadOrCreate();
         if (!Directory.Exists(config.BaseFolder))
         {
-            CliUtils.ShowWarning($"Base wallpapers folder does not exist: {config.BaseFolder}");
+            CliUtils.WriteWarning($"Base wallpapers folder does not exist: {config.BaseFolder}");
             FolderSelector.PromptForBaseFolder(config);
         }
 
@@ -22,8 +22,8 @@ class Program
         }
         else
         {
-            CliUtils.ShowWarning("No category/topic subfolders inside the base directory.");
-            CliUtils.ShowWarning("Defaulting to the root folder.");
+            CliUtils.WriteWarning("No category/topic subfolders inside the base directory.");
+            CliUtils.WriteInfo("Defaulting to the root folder.");
             imagesFolder = config.BaseFolder; // Default to base folder if no subfolders
         }
 

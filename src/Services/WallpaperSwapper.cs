@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
+using WallpaperButler.Utils;
 
 namespace WallpaperButler.Services;
 
@@ -25,6 +26,6 @@ public static class WallpaperSwapper
 
         // Refresh desktop wallpaper
         SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, imagePath, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
-        Console.WriteLine("Wallpaper updated successfully!");
+        CliUtils.WriteSuccess("Wallpaper updated successfully!");
     }
 }

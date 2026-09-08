@@ -36,7 +36,7 @@ public class AppConfig
             }
             catch (Exception)
             {
-                CliUtils.ShowWarning("config.json was missing or corrupted. Resetting to defaults.");
+                CliUtils.WriteWarning("config.json was missing or corrupted. Resetting to defaults.");
             }
         }
         AppConfig defaultConfig = new AppConfig();
