@@ -7,6 +7,7 @@ class Program
 {
     static int Main()
     {
+        CliUtils.InitializeConsole();
         AppConfig config = AppConfig.LoadOrCreate();
         if (!Directory.Exists(config.BaseFolder))
         {

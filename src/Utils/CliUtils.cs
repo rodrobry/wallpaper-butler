@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace WallpaperButler.Utils;
 
 public static class CliUtils
@@ -36,6 +38,30 @@ public static class CliUtils
         Console.WriteLine("Press any key to exit...");
         Console.ReadKey(intercept: true); // Wait for input without printing the key to the screen
         return 1;
+    }
+
+    public static void InitializeConsole()
+    {
+        ConfigureConsole();
+        ShowBanner();
+    }
+
+    private static void ConfigureConsole()
+    {
+        Console.Title = "Wallpaper Butler";
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+    }
+
+    private static void ShowBanner()
+    {
+        string version = Assembly.GetExecutingAssembly()
+            .GetName()
+            .Version?
+            .ToString() ?? "unknown";
+
+        Console.WriteLine("===============================================");
+        Console.WriteLine($"          Wallpaper Butler v{version}          ");
+        Console.WriteLine("===============================================");
     }
 
     private static void Write(string message, Type type)

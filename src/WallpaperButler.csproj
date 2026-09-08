@@ -10,6 +10,7 @@
     <!-- Naming & Assembly Identifiers -->
     <AssemblyName>WallpaperButler</AssemblyName>
     <RootNamespace>WallpaperButler</RootNamespace>
+    <Version>0.1.0</Version>
 
     <!-- Publish & Target Architecture (win-x64) -->
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
