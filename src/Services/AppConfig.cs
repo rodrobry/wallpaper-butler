@@ -36,7 +36,7 @@ public class AppConfig
             }
             catch (Exception)
             {
-                CliUtils.WriteWarning("config.json was missing or corrupted. Resetting to defaults.");
+                MessageService.ConfigFileException(ConfigFilePath);
             }
         }
         AppConfig defaultConfig = new AppConfig();

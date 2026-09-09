@@ -56,4 +56,22 @@ class MessageService
         ];
         CliUtils.WriteError(messages[Random.Shared.Next(messages.Length)]);
     }
+
+    public static void ConfigFileException(string configFilePath)
+    {
+        string[] missingMessages =
+        [
+            $"Thought I had you preferences written down at '{configFilePath}', but for some reason I'm having trouble with it.",
+            $"Oh dear, there is some sort of issue with your preferences at '{configFilePath}'.",
+            $"Something must be terribly wrong with '{configFilePath}'.",
+        ];
+        CliUtils.WriteWarning(missingMessages[Random.Shared.Next(missingMessages.Length)]);
+
+        string[] defaultingMessages =
+        [
+            $"I'll just reset your preferences to some sensible values.",
+            $"Going to have to create a new file, but you may edit it later if you so please.",
+        ];
+        CliUtils.WriteInfo(defaultingMessages[Random.Shared.Next(defaultingMessages.Length)]);
+    }
 }
