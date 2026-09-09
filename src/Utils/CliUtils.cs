@@ -7,6 +7,7 @@ public static class CliUtils
     private enum Type
     {
         Info,
+        Prompt,
         Success,
         Warning,
         Error
@@ -25,6 +26,11 @@ public static class CliUtils
     public static void WriteInfo(string message)
     {
         Write(message, Type.Info);
+    }
+
+    public static void WritePrompt(string message)
+    {
+        Write(message, Type.Prompt);
     }
 
     public static void WriteSuccess(string message)
@@ -68,7 +74,8 @@ public static class CliUtils
     {
         ConsoleColor color = type switch
         {
-            Type.Info => ConsoleColor.Cyan,
+            Type.Info => ConsoleColor.White,
+            Type.Prompt => ConsoleColor.Cyan,
             Type.Success => ConsoleColor.Green,
             Type.Warning => ConsoleColor.Yellow,
             Type.Error => ConsoleColor.Red,
