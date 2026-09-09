@@ -31,7 +31,10 @@ class Program
                                        .Where(FileUtils.IsSupportedImageFormat)
                                        .ToList();
         if (allImages.Count == 0)
-            return CliUtils.ExitWithError("Selected folder does not have valid images.");
+        {
+            MessageService.NoValidImages(imagesFolder);
+            return CliUtils.Exit();
+        }
 
         List<string> horizontalImages = [];
         List<string> verticalImages = [];

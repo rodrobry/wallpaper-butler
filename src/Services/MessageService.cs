@@ -45,4 +45,15 @@ class MessageService
         ];
         CliUtils.WriteInfo(defaultingMessages[Random.Shared.Next(defaultingMessages.Length)]);
     }
+
+    public static void NoValidImages(string folder)
+    {
+        string[] messages =
+        [
+            $"I can't find any usable images in '{folder}'.",
+            $"Oh my, no valid images to be found in '{folder}'.",
+            $"The folder '{folder}' seems to be void of valid images.",
+        ];
+        CliUtils.WriteError(messages[Random.Shared.Next(messages.Length)]);
+    }
 }

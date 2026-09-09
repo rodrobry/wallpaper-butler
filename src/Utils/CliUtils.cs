@@ -15,12 +15,12 @@ public static class CliUtils
 
     public static void WriteWarning(string message)
     {
-        Write($"WARNING: {message}", Type.Warning);
+        Write($"(Warning): {message}", Type.Warning);
     }
 
     public static void WriteError(string message)
     {
-        Write($"ERROR: {message}", Type.Error);
+        Write($"(Error) {message}", Type.Error);
     }
 
     public static void WriteInfo(string message)
@@ -38,12 +38,11 @@ public static class CliUtils
         Write(message, Type.Success);
     }
 
-    public static int ExitWithError(string message)
+    public static int Exit(int status = 0)
     {
-        WriteError(message);
         Console.WriteLine("Press any key to exit...");
         Console.ReadKey(intercept: true); // Wait for input without printing the key to the screen
-        return 1;
+        return status;
     }
 
     public static void InitializeConsole()
