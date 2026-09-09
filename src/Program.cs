@@ -11,7 +11,7 @@ class Program
         AppConfig config = AppConfig.LoadOrCreate();
         if (!Directory.Exists(config.BaseFolder))
         {
-            CliUtils.WriteWarning($"Base wallpapers folder does not exist: {config.BaseFolder}");
+            MessageService.MissingBaseFolder(config.BaseFolder);
             FolderSelector.PromptForBaseFolder(config);
         }
 
