@@ -26,4 +26,23 @@ class MessageService
         ];
         CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
     }
+
+    public static void MissingSubfolders(string baseFolder)
+    {
+        string[] missingMessages =
+        [
+            $"I can't find any subfolders inside '{baseFolder}'.",
+            $"How unfortunate, no subfolders inside '{baseFolder}'.",
+            $"The base folder '{baseFolder}' seems to be empty.",
+        ];
+        CliUtils.WriteWarning(missingMessages[Random.Shared.Next(missingMessages.Length)]);
+
+        string[] defaultingMessages =
+        [
+            $"No choice but to use all these unorganised images.",
+            $"I'll use the images here, but organizing them at some point would be nice.",
+            $"Not a problem, I'll work with what I have until you manage to organize them.",
+        ];
+        CliUtils.WriteInfo(defaultingMessages[Random.Shared.Next(defaultingMessages.Length)]);
+    }
 }

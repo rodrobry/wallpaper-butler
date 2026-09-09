@@ -23,8 +23,7 @@ class Program
         }
         else
         {
-            CliUtils.WriteWarning("No category/topic subfolders inside the base directory.");
-            CliUtils.WriteInfo("Defaulting to the root folder.");
+            MessageService.MissingSubfolders(config.BaseFolder);
             imagesFolder = config.BaseFolder; // Default to base folder if no subfolders
         }
 
