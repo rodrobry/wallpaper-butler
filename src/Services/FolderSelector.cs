@@ -12,7 +12,7 @@ public static class FolderSelector
             string? input = Console.ReadLine()?.Trim(' ', '"');
             if (input is null)
             {
-                Console.WriteLine("\nOperation canceled.");
+                MessageService.UserCancel();
                 Environment.Exit(0);
             }
             if (string.IsNullOrWhiteSpace(input))
@@ -56,7 +56,7 @@ public static class FolderSelector
         // Stream closed or aborted (like Ctrl+Z or Ctrl+C)
         if (input is null)
         {
-            Console.WriteLine("\nOperation canceled.");
+            MessageService.UserCancel();
             Environment.Exit(0);
         }
         // Blank input -> Random selection

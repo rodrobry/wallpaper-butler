@@ -95,4 +95,14 @@ class MessageService
         ];
         CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
     }
+
+    public static void UserCancel()
+    {
+        string[] messages =
+        [
+            "\nVery well, procedure aborted.",
+            "\nOperation canceled as per your request.",
+        ];
+        CliUtils.WriteInfo(messages[Random.Shared.Next(messages.Length)]);
+    }
 }
