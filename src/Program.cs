@@ -66,9 +66,14 @@ class Program
                 : PickAndRemoveRandom(verticalImages)
         ).ToArray();
 
-        string newWallpaperPath = WallpaperCreator.MergeImages(imagePaths, screens);
+        string newWallpaperPath;
+        if (screens.Length > 1)
+            newWallpaperPath = WallpaperCreator.MergeImages(imagePaths, screens);
+        else
+            newWallpaperPath = imagePaths[0];
+
         WallpaperSwapper.ApplyNewWallpaper(newWallpaperPath);
-        return 0;
+        return CliUtils.Exit(0);
     }
 
     // Helper to pick a random image and remove it from the pool to avoid duplicates
