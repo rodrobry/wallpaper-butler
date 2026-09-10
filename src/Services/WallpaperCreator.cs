@@ -8,10 +8,12 @@ public static class WallpaperCreator
 {
     public static string MergeImages(string[] imagePaths, Screen[] screens)
     {
-        // Get exact total desktop bounds from Windows
-        Rectangle virtualScreen = SystemInformation.VirtualScreen;
-        using var canvas = new Bitmap(virtualScreen.Width, virtualScreen.Height);
-        using var canvasGraphics = Graphics.FromImage(canvas);
+        // User Temp folder -> C:\Users\<user>\AppData\Local\Temp
+        string tempPath = Path.Combine(Path.GetTempPath(), "spanned_wallpaper.png");
+
+        Rectangle virtualScreen = SystemInformation.VirtualScreen; // Exact total desktop bounds from Windows
+        using Bitmap canvas = CreateCanvas(tempPath, virtualScreen);
+        using Graphics canvasGraphics = Graphics.FromImage(canvas);
 
         // Enable high-quality rendering modes
         canvasGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -25,13 +27,13 @@ public static class WallpaperCreator
             if (string.IsNullOrEmpty(imagePaths[i]))
             {
                 CliUtils.WriteWarning($"Missing an image of matching orientation.");
-                CliUtils.WriteInfo($"Screen { i + 1} will be black.");
+                CliUtils.WriteInfo($"Screen {i + 1} will default to the previous image if possible or to black if not.");
                 continue;
             }
             if (!File.Exists(imagePaths[i]))
             {
                 CliUtils.WriteWarning($"File not found -> {imagePaths[i]}");
-                CliUtils.WriteInfo($"Screen { i + 1} will be black.");
+                CliUtils.WriteInfo($"Screen {i + 1} will default to the previous image if possible or to black if not.");
                 continue;
             }
 
@@ -52,11 +54,23 @@ public static class WallpaperCreator
             }
         }
 
-        // User Temp folder -> C:\Users\<user>\AppData\Local\Temp
-        string tempPath = Path.Combine(Path.GetTempPath(), "spanned_wallpaper.png");
         // Save as PNG to prevent lossy re-compression
         canvas.Save(tempPath, ImageFormat.Png);
 
         return tempPath;
+    }
+
+    // Create a new canvas or use the last merged wallpaper if possible
+    // Using the previous wallpaper avoids black wallpapers if there are issues with the new merge.
+    private static Bitmap CreateCanvas(string path, Rectangle virtualScreen)
+    {
+        if (File.Exists(path))
+        {
+            using var previousWallpaper = Image.FromFile(path);
+            if (previousWallpaper.Width == virtualScreen.Width &&
+                previousWallpaper.Height == virtualScreen.Height)
+                return new Bitmap(previousWallpaper);
+        }
+        return new Bitmap(virtualScreen.Width, virtualScreen.Height);
     }
 }
