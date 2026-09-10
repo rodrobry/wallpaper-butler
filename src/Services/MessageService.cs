@@ -126,4 +126,43 @@ class MessageService
         ];
         CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
     }
+
+    public static void MissingImgForOrientation(int screen)
+    {
+        string[] messages =
+        [
+            $"Missing an image that can match the orientation of screen {screen}.",
+            $"Sadly there were no images to fit screen {screen}.",
+        ];
+        CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
+    }
+
+    public static void ImageNotFound(string imagePath)
+    {
+        string[] messages =
+        [
+            $"Unexpected! I can't find an image at '{imagePath}'.",
+            $"Image '{imagePath}' is no longer there. Something must have happened to it while I was working!",
+        ];
+        CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
+    }
+
+    public static void HandlingMissingImage(int screen, bool previousImgAvailable)
+    {
+        string[] previousMessages =
+        [
+            $"No worries, I'll set screen {screen} to the previous image.",
+            $"Screen {screen} will use the previous image, I hope that is fine...",
+        ];
+        string[] blackMessages =
+        [
+            $"Sadly the best I can do here is set screen {screen} to black, still classy...",
+            $"For screen {screen} I'll use a true classic, Black!",
+        ];
+
+        if (previousImgAvailable)
+            CliUtils.WriteInfo(previousMessages[Random.Shared.Next(previousMessages.Length)]);
+        else
+            CliUtils.WriteInfo(blackMessages[Random.Shared.Next(blackMessages.Length)]);
+    }
 }

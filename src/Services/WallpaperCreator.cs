@@ -10,9 +10,10 @@ public static class WallpaperCreator
     {
         // User Temp folder -> C:\Users\<user>\AppData\Local\Temp
         string tempPath = Path.Combine(Path.GetTempPath(), "spanned_wallpaper.png");
+        bool previousImgAvailable = false;
 
         Rectangle virtualScreen = SystemInformation.VirtualScreen; // Exact total desktop bounds from Windows
-        using Bitmap canvas = CreateCanvas(tempPath, virtualScreen);
+        using Bitmap canvas = CreateCanvas(tempPath, virtualScreen, previousImgAvailable);
         using Graphics canvasGraphics = Graphics.FromImage(canvas);
 
         // Enable high-quality rendering modes
@@ -24,16 +25,17 @@ public static class WallpaperCreator
         // Draw each image at its exact OS-defined coordinates
         for (int i = 0; i < screens.Length && i < imagePaths.Length; i++)
         {
+            int screen = i + 1;
             if (string.IsNullOrEmpty(imagePaths[i]))
             {
-                CliUtils.WriteWarning($"Missing an image of matching orientation.");
-                CliUtils.WriteInfo($"Screen {i + 1} will default to the previous image if possible or to black if not.");
+                MessageService.MissingImgForOrientation(screen);
+                MessageService.HandlingMissingImage(screen, previousImgAvailable);
                 continue;
             }
             if (!File.Exists(imagePaths[i]))
             {
-                CliUtils.WriteWarning($"File not found -> {imagePaths[i]}");
-                CliUtils.WriteInfo($"Screen {i + 1} will default to the previous image if possible or to black if not.");
+                MessageService.ImageNotFound(imagePaths[i]);
+                MessageService.HandlingMissingImage(screen, previousImgAvailable);
                 continue;
             }
 
@@ -62,14 +64,17 @@ public static class WallpaperCreator
 
     // Create a new canvas or use the last merged wallpaper if possible
     // Using the previous wallpaper avoids black wallpapers if there are issues with the new merge.
-    private static Bitmap CreateCanvas(string path, Rectangle virtualScreen)
+    private static Bitmap CreateCanvas(string path, Rectangle virtualScreen, bool previousImgAvailable)
     {
         if (File.Exists(path))
         {
             using var previousWallpaper = Image.FromFile(path);
             if (previousWallpaper.Width == virtualScreen.Width &&
                 previousWallpaper.Height == virtualScreen.Height)
+            {
+                previousImgAvailable = true;
                 return new Bitmap(previousWallpaper);
+            }
         }
         return new Bitmap(virtualScreen.Width, virtualScreen.Height);
     }
