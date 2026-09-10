@@ -22,9 +22,16 @@ public static class WallpaperCreator
         // Draw each image at its exact OS-defined coordinates
         for (int i = 0; i < screens.Length && i < imagePaths.Length; i++)
         {
+            if (string.IsNullOrEmpty(imagePaths[i]))
+            {
+                CliUtils.WriteWarning($"Missing an image of matching orientation.");
+                CliUtils.WriteInfo($"Screen { i + 1} will be black.");
+                continue;
+            }
             if (!File.Exists(imagePaths[i]))
             {
                 CliUtils.WriteWarning($"File not found -> {imagePaths[i]}");
+                CliUtils.WriteInfo($"Screen { i + 1} will be black.");
                 continue;
             }
 
@@ -34,8 +41,15 @@ public static class WallpaperCreator
             int width = screens[i].Bounds.Width;
             int height = screens[i].Bounds.Height;
 
-            using var img = Image.FromFile(imagePaths[i]);
-            canvasGraphics.DrawImage(img, drawX, drawY, width, height);
+            try
+            {
+                using var img = Image.FromFile(imagePaths[i]);
+                canvasGraphics.DrawImage(img, drawX, drawY, width, height);
+            }
+            catch (Exception ex)
+            {
+                CliUtils.WriteWarning($"Issue drawing an image -> {ex.Message}");
+            }
         }
 
         // User Temp folder -> C:\Users\<user>\AppData\Local\Temp
