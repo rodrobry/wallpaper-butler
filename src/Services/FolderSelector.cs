@@ -8,7 +8,7 @@ public static class FolderSelector
     {
         while (!Directory.Exists(config.BaseFolder))
         {
-            Console.Write("Please provide a valid base folder path: ");
+            MessageService.AskForBaseFolder();
             string? input = Console.ReadLine()?.Trim(' ', '"');
             if (input is null)
             {

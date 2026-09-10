@@ -74,4 +74,14 @@ class MessageService
         ];
         CliUtils.WriteInfo(defaultingMessages[Random.Shared.Next(defaultingMessages.Length)]);
     }
+
+    public static void AskForBaseFolder()
+    {
+        string[] messages =
+        [
+            "Could you please indicate a valid base folder path:",
+            "Would you mind pointing me to the right base folder:",
+        ];
+        CliUtils.WritePrompt(messages[Random.Shared.Next(messages.Length)]);
+    }
 }
