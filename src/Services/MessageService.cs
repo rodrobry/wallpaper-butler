@@ -115,4 +115,15 @@ class MessageService
         ];
         CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
     }
+
+    public static void InvalidCategory(string input)
+    {
+        string[] messages =
+        [
+            $"There must be some sort of mistake, I can't find a match for '{input}'",
+            $"Excuse me? '{input}' is not on the list Master.",
+            "That does not seem to match any of the options.",
+        ];
+        CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
+    }
 }

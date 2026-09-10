@@ -79,7 +79,7 @@ public static class FolderSelector
             return matchedFolder;
         }
 
-        CliUtils.WriteWarning($"'{input}' is not a valid option.");
+        MessageService.InvalidCategory(input);
         return null;
     }
 }
