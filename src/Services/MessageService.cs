@@ -84,4 +84,15 @@ class MessageService
         ];
         CliUtils.WritePrompt(messages[Random.Shared.Next(messages.Length)]);
     }
+
+    public static void DirectoryDoesNotExist(string folder)
+    {
+        string[] messages =
+        [
+            $"The directory '{folder}' does not seem to exist.",
+            $"The path '{folder}' seems to lead nowhere.",
+            $"Nothing to be found at '{folder}'.",
+        ];
+        CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
+    }
 }

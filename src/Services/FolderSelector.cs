@@ -22,7 +22,7 @@ public static class FolderSelector
             }
             if (!Directory.Exists(input))
             {
-                CliUtils.WriteWarning($"Directory '{input}' does not exist.");
+                MessageService.DirectoryDoesNotExist(input);
                 continue;
             }
             config.BaseFolder = input;
