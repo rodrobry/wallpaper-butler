@@ -105,4 +105,14 @@ class MessageService
         ];
         CliUtils.WriteInfo(messages[Random.Shared.Next(messages.Length)]);
     }
+
+    public static void PathInputEmpty()
+    {
+        string[] messages =
+        [
+            "The path cannot be empty Master.",
+            "Nothing? Can't really get anything done without this.",
+        ];
+        CliUtils.WriteWarning(messages[Random.Shared.Next(messages.Length)]);
+    }
 }

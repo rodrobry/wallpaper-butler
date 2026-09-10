@@ -17,7 +17,7 @@ public static class FolderSelector
             }
             if (string.IsNullOrWhiteSpace(input))
             {
-                CliUtils.WriteWarning("Path cannot be empty.");
+                MessageService.PathInputEmpty();
                 continue;
             }
             if (!Directory.Exists(input))
