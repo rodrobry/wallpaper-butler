@@ -40,7 +40,7 @@ public static class CliUtils
 
     public static int Exit(int status = 0)
     {
-        Console.WriteLine("Press any key to exit...");
+        WritePrompt("Press any key to exit...");
         Console.ReadKey(intercept: true); // Wait for input without printing the key to the screen
         return status;
     }
