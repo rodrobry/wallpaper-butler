@@ -13,8 +13,21 @@ public static class WallpaperCreator
         bool previousImgAvailable = false;
 
         Rectangle virtualScreen = SystemInformation.VirtualScreen; // Exact total desktop bounds from Windows
-        using Bitmap canvas = CreateCanvas(tempPath, virtualScreen, previousImgAvailable);
+        using Bitmap canvas = new(virtualScreen.Width, virtualScreen.Height);
         using Graphics canvasGraphics = Graphics.FromImage(canvas);
+
+        // Use the last merged wallpaper if possible
+        // Using the previous wallpaper avoids black wallpapers if there are issues with the new merge.
+        if (File.Exists(tempPath))
+        {
+            using var previousWallpaper = Image.FromFile(tempPath);
+            if (previousWallpaper.Width == virtualScreen.Width &&
+                previousWallpaper.Height == virtualScreen.Height)
+            {
+                canvasGraphics.DrawImage(previousWallpaper, 0, 0, canvas.Width, canvas.Height);
+                previousImgAvailable = true;
+            }
+        }
 
         // Enable high-quality rendering modes
         canvasGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -60,22 +73,5 @@ public static class WallpaperCreator
         canvas.Save(tempPath, ImageFormat.Png);
 
         return tempPath;
-    }
-
-    // Create a new canvas or use the last merged wallpaper if possible
-    // Using the previous wallpaper avoids black wallpapers if there are issues with the new merge.
-    private static Bitmap CreateCanvas(string path, Rectangle virtualScreen, bool previousImgAvailable)
-    {
-        if (File.Exists(path))
-        {
-            using var previousWallpaper = Image.FromFile(path);
-            if (previousWallpaper.Width == virtualScreen.Width &&
-                previousWallpaper.Height == virtualScreen.Height)
-            {
-                previousImgAvailable = true;
-                return new Bitmap(previousWallpaper);
-            }
-        }
-        return new Bitmap(virtualScreen.Width, virtualScreen.Height);
     }
 }

@@ -1,5 +1,3 @@
-using WallpaperButler.Utils;
-
 namespace WallpaperButler.Services;
 
 public static class FolderSelector
