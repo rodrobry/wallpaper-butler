@@ -42,7 +42,7 @@ public static class FolderSelector
         string? selectedFolder = null;
         while (selectedFolder == null)
         {
-            Console.Write("Enter a name or number (leave blank for random): ");
+            MessageService.AskForSubfolder();
             string? input = Console.ReadLine()?.Trim();
             selectedFolder = ParseCategoryInput(input, folderPaths);
         }

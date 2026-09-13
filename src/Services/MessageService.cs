@@ -93,7 +93,19 @@ class MessageService
             "As of now these are the available choices:",
             "Here are the choices we have for today:",
         ];
+        CliUtils.WriteInfo(messages[Random.Shared.Next(messages.Length)]);
+    }
+
+    public static void AskForSubfolder()
+    {
+        string[] messages =
+        [
+            "What will we be having today Master?",
+            "What are we in the mood for today?",
+            "What atmosphere shall we set today?",
+        ];
         CliUtils.WritePrompt(messages[Random.Shared.Next(messages.Length)]);
+        CliUtils.WritePrompt("(type the name, number, or leave black for a random option)");
     }
 
     public static void DirectoryDoesNotExist(string folder)
