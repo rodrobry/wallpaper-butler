@@ -176,4 +176,15 @@ class MessageService
         else
             CliUtils.WriteInfo(blackMessages[Random.Shared.Next(blackMessages.Length)]);
     }
+
+    public static void SelectingRandomFolder()
+    {
+        string[] messages =
+        [
+            "Very well, I'll take the choice of your hands.",
+            "Leaving it to change today? Very well!",
+            "A random one? Sure, let's give the wheel a spin!",
+        ];
+        CliUtils.WriteInfo(messages[Random.Shared.Next(messages.Length)]);
+    }
 }

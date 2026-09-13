@@ -62,7 +62,7 @@ public static class FolderSelector
         // Blank input -> Random selection
         if (string.IsNullOrWhiteSpace(input))
         {
-            Console.WriteLine($"Selecting random folder");
+            MessageService.SelectingRandomFolder();
             return folderPaths[Random.Shared.Next(folderPaths.Length)];
         }
         // Valid index number
