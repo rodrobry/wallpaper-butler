@@ -31,7 +31,7 @@ public static class FolderSelector
     public static string PromptForCategoryFolder(string[] folderPaths)
     {
         // Display available categories
-        Console.WriteLine("Available folders:");
+        MessageService.PresentSubfolders();
         for (int i = 0; i < folderPaths.Length; i++)
         {
             Console.WriteLine($"  [{i + 1}] {Path.GetFileName(folderPaths[i])}");

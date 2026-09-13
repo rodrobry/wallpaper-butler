@@ -85,6 +85,17 @@ class MessageService
         CliUtils.WritePrompt(messages[Random.Shared.Next(messages.Length)]);
     }
 
+        public static void PresentSubfolders()
+    {
+        string[] messages =
+        [
+            "Where are the possible selections:",
+            "As of now these are the available choices:",
+            "Here are the choices we have for today:",
+        ];
+        CliUtils.WritePrompt(messages[Random.Shared.Next(messages.Length)]);
+    }
+
     public static void DirectoryDoesNotExist(string folder)
     {
         string[] messages =
