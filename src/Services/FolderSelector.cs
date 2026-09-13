@@ -1,3 +1,5 @@
+using WallpaperButler.Utils;
+
 namespace WallpaperButler.Services;
 
 public static class FolderSelector
@@ -34,7 +36,7 @@ public static class FolderSelector
         MessageService.PresentSubfolders();
         for (int i = 0; i < folderPaths.Length; i++)
         {
-            Console.WriteLine($"  [{i + 1}] {Path.GetFileName(folderPaths[i])}");
+            CliUtils.WriteInfo($"  [{i + 1}] {Path.GetFileName(folderPaths[i])}");
         }
 
         string? selectedFolder = null;
