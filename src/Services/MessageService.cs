@@ -85,7 +85,7 @@ class MessageService
         CliUtils.WritePrompt(messages[Random.Shared.Next(messages.Length)]);
     }
 
-        public static void PresentSubfolders()
+    public static void PresentSubfolders()
     {
         string[] messages =
         [
@@ -175,6 +175,17 @@ class MessageService
             CliUtils.WriteInfo(previousMessages[Random.Shared.Next(previousMessages.Length)]);
         else
             CliUtils.WriteInfo(blackMessages[Random.Shared.Next(blackMessages.Length)]);
+    }
+
+    public static void SubfolderSelected(string folder)
+    {
+        string[] messages =
+        [
+            $"Hum yes, '{folder}' seems appropriate.",
+            $"'{folder}' seems like a fine choice.",
+            $"'{folder}' should do nicely.",
+        ];
+        CliUtils.WriteInfo(messages[Random.Shared.Next(messages.Length)]);
     }
 
     public static void SelectingRandomFolder()

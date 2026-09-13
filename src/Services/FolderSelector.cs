@@ -47,7 +47,7 @@ public static class FolderSelector
             selectedFolder = ParseCategoryInput(input, folderPaths);
         }
 
-        Console.WriteLine($"Selected: {Path.GetFileName(selectedFolder)}");
+        MessageService.SubfolderSelected(Path.GetFileName(selectedFolder));
         return selectedFolder;
     }
 
