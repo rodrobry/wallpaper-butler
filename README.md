@@ -1,5 +1,6 @@
 # Wallpaper Butler
 
+[![GitHub release](https://img.shields.io/github/v/release/rodrobry/wallpaper-butler?include_prereleases)](https://github.com/rodrobry/wallpaper-butler/releases/latest)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-blue)
 ![License](https://img.shields.io/github/license/rodrobry/wallpaper-butler)
 
