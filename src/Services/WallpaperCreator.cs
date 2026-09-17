@@ -16,8 +16,13 @@ public static class WallpaperCreator
         using Bitmap canvas = new(virtualScreen.Width, virtualScreen.Height);
         using Graphics canvasGraphics = Graphics.FromImage(canvas);
 
-        // Use the last merged wallpaper if possible
-        // Using the previous wallpaper avoids black wallpapers if there are issues with the new merge.
+        // Enable high-quality rendering modes
+        canvasGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        canvasGraphics.SmoothingMode = SmoothingMode.HighQuality;
+        canvasGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+        canvasGraphics.CompositingQuality = CompositingQuality.HighQuality;
+
+        // Use the last merged wallpaper if possible to avoid black screens or merge issues.
         if (File.Exists(tempPath))
         {
             using var previousWallpaper = Image.FromFile(tempPath);
@@ -29,34 +34,29 @@ public static class WallpaperCreator
             }
         }
 
-        // Enable high-quality rendering modes
-        canvasGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        canvasGraphics.SmoothingMode = SmoothingMode.HighQuality;
-        canvasGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-        canvasGraphics.CompositingQuality = CompositingQuality.HighQuality;
-
         // Draw each image at its exact OS-defined coordinates
         for (int i = 0; i < screens.Length && i < imagePaths.Length; i++)
         {
-            int screen = i + 1;
+            int screenNumber = i + 1;
             if (string.IsNullOrEmpty(imagePaths[i]))
             {
-                MessageService.MissingImgForOrientation(screen);
-                MessageService.HandlingMissingImage(screen, previousImgAvailable);
+                MessageService.MissingImgForOrientation(screenNumber);
+                MessageService.HandlingMissingImage(screenNumber, previousImgAvailable);
                 continue;
             }
             if (!File.Exists(imagePaths[i]))
             {
                 MessageService.ImageNotFound(imagePaths[i]);
-                MessageService.HandlingMissingImage(screen, previousImgAvailable);
+                MessageService.HandlingMissingImage(screenNumber, previousImgAvailable);
                 continue;
             }
 
             // Normalize Windows screen coordinates to 0-based canvas coordinates
-            int drawX = screens[i].Bounds.X - virtualScreen.X;
-            int drawY = screens[i].Bounds.Y - virtualScreen.Y;
-            int width = screens[i].Bounds.Width;
-            int height = screens[i].Bounds.Height;
+            Rectangle bounds = screens[i].Bounds;
+            int drawX = bounds.X - virtualScreen.X;
+            int drawY = bounds.Y - virtualScreen.Y;
+            int width = bounds.Width;
+            int height = bounds.Height;
 
             try
             {
