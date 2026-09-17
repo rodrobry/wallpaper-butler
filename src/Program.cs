@@ -7,14 +7,16 @@ class Program
 {
     static int Main()
     {
+        // Initialization and Setup
         CliUtils.InitializeConsole();
         AppConfig config = AppConfig.LoadOrCreate();
+
+        // Get image folder
         if (!Directory.Exists(config.BaseFolder))
         {
             MessageService.MissingBaseFolder(config.BaseFolder);
             FolderSelector.PromptForBaseFolder(config);
         }
-
         string[] categoryFolders = Directory.GetDirectories(config.BaseFolder);
         string imagesFolder;
         if (categoryFolders.Length > 0)
@@ -27,18 +29,19 @@ class Program
             imagesFolder = config.BaseFolder; // Default to base folder if no subfolders
         }
 
+        // Get all images in the target folder
         List<string> allImages = Directory.EnumerateFiles(imagesFolder, "*.*")
                                        .Where(FileUtils.IsSupportedImageFormat)
                                        .ToList();
         if (allImages.Count == 0)
         {
             MessageService.NoValidImages(imagesFolder);
-            return CliUtils.Exit();
+            return CliUtils.Exit(1);
         }
 
+        // Separate images into orientation
         List<string> horizontalImages = [];
         List<string> verticalImages = [];
-
         foreach (var imagePath in allImages)
         {
             try
@@ -56,8 +59,8 @@ class Program
             }
         }
 
-        // Sort monitors left-to-right by physical X position
-        var screens = Screen.AllScreens.OrderBy(s => s.Bounds.X).ToArray();
+        // Get monitors
+        var screens = Screen.AllScreens.ToArray();
 
         // Dynamically pick horizontal or vertical images per screen orientation
         var imagePaths = screens.Select(s =>
@@ -66,13 +69,12 @@ class Program
                 : PickAndRemoveRandom(verticalImages)
         ).ToArray();
 
-        string newWallpaperPath;
-        if (screens.Length > 1)
-            newWallpaperPath = WallpaperCreator.MergeImages(imagePaths, screens);
-        else
-            newWallpaperPath = imagePaths[0];
-
+        // Get and apply new wallpaper (stich images if multiple monitors)
+        string newWallpaperPath = screens.Length > 1
+            ? WallpaperCreator.MergeImages(imagePaths, screens)
+            : imagePaths[0];
         WallpaperSwapper.ApplyNewWallpaper(newWallpaperPath);
+
         return CliUtils.Exit(0);
     }
 
