@@ -60,22 +60,35 @@ class Program
         }
 
         // Get monitors
-        var screens = Screen.AllScreens.ToArray();
+        Screen[] screens = Screen.AllScreens.ToArray();
 
-        // Dynamically pick horizontal or vertical images per screen orientation
-        var imagePaths = screens.Select(s =>
-            s.Bounds.Width >= s.Bounds.Height
-                ? PickAndRemoveRandom(horizontalImages)
-                : PickAndRemoveRandom(verticalImages)
-        ).ToArray();
+        // Pick random images and change wallpaper until user satisfied
+        bool reroll = true;
+        while (reroll)
+        {
+            // Copy lists each reroll to preserve original lists
+            var horizontalPool = horizontalImages.ToList();
+            var verticalPool = verticalImages.ToList();
+            // Pick horizontal/vertical images to match screen orientations
+            string[] imagePaths = screens.Select(screens =>
+                screens.Bounds.Width >= screens.Bounds.Height
+                    ? PickAndRemoveRandom(horizontalPool)
+                    : PickAndRemoveRandom(verticalPool)
+            ).ToArray();
 
-        // Get and apply new wallpaper (stich images if multiple monitors)
-        string newWallpaperPath = screens.Length > 1
-            ? WallpaperCreator.MergeImages(imagePaths, screens)
-            : imagePaths[0];
-        WallpaperSwapper.ApplyNewWallpaper(newWallpaperPath);
+            // Get and apply new wallpaper
+            string newWallpaperPath = screens.Length > 1
+                ? WallpaperCreator.MergeImages(imagePaths, screens)
+                : imagePaths[0];
+            WallpaperSwapper.ApplyNewWallpaper(newWallpaperPath);
 
-        return CliUtils.Exit(0);
+            CliUtils.WritePrompt("Press 'R' to retry or any other key to exit.");
+            ConsoleKeyInfo key = Console.ReadKey(intercept: true);
+            if (key.Key != ConsoleKey.R)
+                reroll = false;
+        }
+
+        return 0;
     }
 
     // Helper to pick a random image and remove it from the pool to avoid duplicates
