@@ -82,7 +82,7 @@ class Program
                 : imagePaths[0];
             WallpaperSwapper.ApplyNewWallpaper(newWallpaperPath);
 
-            CliUtils.WritePrompt("Press 'R' to retry or any other key to exit.");
+            CliUtils.WritePrompt("(press 'R' to retry or any other key to exit)");
             ConsoleKeyInfo key = Console.ReadKey(intercept: true);
             if (key.Key != ConsoleKey.R)
                 reroll = false;

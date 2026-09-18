@@ -6,14 +6,21 @@ class MessageService
 {
     public static void WallpapersUpdated()
     {
-        string[] messages =
+        string[] successMessages =
         [
             "Wallpaper updated. Much better!",
             "There you go, hope it is to your liking.",
             "How marvelous! If I may say so myself.",
             "There! Refreshing, isn't it?"
         ];
-        CliUtils.WriteSuccess(messages[Random.Shared.Next(messages.Length)]);
+        CliUtils.WriteSuccess(successMessages[Random.Shared.Next(successMessages.Length)]);
+        string[] validationMessages =
+        [
+            "How about it? Is it to your liking?",
+            "Good to go, or should we try again?",
+            "Shall we give it another go or are you satisfied?",
+        ];
+        CliUtils.WritePrompt(validationMessages[Random.Shared.Next(validationMessages.Length)]);
     }
 
     public static void MissingBaseFolder(string baseFolder)
